@@ -1,12 +1,18 @@
 import { Routes } from '@angular/router';
-import path from 'path';
 import { Fortaleza } from './components/fortaleza/fortaleza';
+import { AlumnoForm } from './components/alumno-form/alumno-form';
 
 export const routes: Routes = [
     {
         path: '',
         children: [
-            {path: 'fortaleza', component: Fortaleza}
+            {path: 'fortaleza', component: Fortaleza},
+        ]
+    } ,
+    {
+        path: 'alumno',
+        children: [
+            {path: 'form', component: AlumnoForm} //alumno/form
         ]
     }
 ];
