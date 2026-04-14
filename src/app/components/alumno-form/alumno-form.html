@@ -1,1 +1,226 @@
-<p>alumno-form works!</p>
+<div class="container py-4">
+    <!-- creamos un sistema de filas centrado -->
+  <div class="row justify-content-center"> 
+     <!--12 columnas en movil, en pantallas grandes ocupamos 9 de esas 12  -->
+    <div class="col-12 col-xl-9">
+        <!-- se define una card, sin borde pero con relieve -->
+      <div class="card border-0 shadow-lg alumno-card">
+        <!-- el tamaño de la card tiene un margen en movil de 4 y de 5 en dispositivos medianos -->
+        <div class="card-body p-4 p-md-5">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+              <h2 class="mb-1">Formulario reactivo de Alumno</h2>
+              <p class="text-muted mb-0">
+                Demo con validaciones,  validador asíncrono.
+              </p>
+          </div>
+
+          <form [formGroup]="alumnoForm" (ngSubmit)="submit()" novalidate>
+            <div class="row g-4">
+              <!-- NOMBRE -->
+              <div class="col-12 col-md-6">
+                <label for="nombre" class="form-label fw-semibold">Nombre</label>
+                <input
+                  id="nombre"
+                  type="text"
+                  class="form-control form-control-lg"
+                  formControlName="nombre"
+                  placeholder="Escribe el nombre"
+                  [class.is-invalid]="alumnoForm.controls.nombre.touched && alumnoForm.controls.nombre.invalid"
+                />
+
+                @if (alumnoForm.controls.nombre.touched && alumnoForm.controls.nombre.invalid) {
+                  <div class="invalid-feedback d-block">
+                    @if (alumnoForm.controls.nombre.errors?.['required']) {
+                      <div>El nombre es obligatorio.</div>
+                    }
+                    @if (alumnoForm.controls.nombre.errors?.['minlength']) {
+                      <div>El nombre debe tener al menos 4 caracteres.</div>
+                    }
+                    @if (alumnoForm.controls.nombre.errors?.['maxlength']) {
+                      <div>El nombre debe tener como máximo 15 caracteres.</div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- APELLIDO -->
+              <div class="col-12 col-md-6">
+                <label for="apellido" class="form-label fw-semibold">Apellido</label>
+                <input
+                  id="apellido"
+                  type="text"
+                  class="form-control form-control-lg"
+                  formControlName="apellido"
+                  placeholder="Escribe el apellido"
+                  [class.is-invalid]="alumnoForm.controls.apellido.touched && alumnoForm.controls.apellido.invalid"
+                />
+
+                @if (alumnoForm.controls.apellido.touched && alumnoForm.controls.apellido.invalid) {
+                  <div class="invalid-feedback d-block">
+                    @if (alumnoForm.controls.apellido.errors?.['required']) {
+                      <div>El apellido es obligatorio.</div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- EMAIL -->
+              <div class="col-12 col-md-6">
+                <label for="email" class="form-label fw-semibold">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  class="form-control form-control-lg"
+                  formControlName="email"
+                  placeholder="nombre@correo.com"
+                  [class.is-invalid]="alumnoForm.controls.email.touched && alumnoForm.controls.email.invalid"
+                />
+
+                @if (alumnoForm.controls.email.pending) {
+                  <div class="form-text text-primary">
+                    Validando email...
+                  </div>
+                }
+
+                @if (alumnoForm.controls.email.touched && alumnoForm.controls.email.invalid)
+                {
+                  <div class="invalid-feedback d-block">
+                    @if (alumnoForm.controls.email.errors?.['required']) {
+                      <div>El email es obligatorio.</div>
+                    }
+                    @if (alumnoForm.controls.email.errors?.['email']) {
+                      <div>El email no tiene un formato válido.</div>
+                    }
+                    @if (alumnoForm.controls.email.errors?.['emailOcupado']) {
+                      <div>Ese email ya está registrado.</div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- EDAD -->
+              <div class="col-12 col-md-3">
+                <label for="edad" class="form-label fw-semibold">Edad</label>
+                <input
+                  id="edad"
+                  type="number"
+                  class="form-control form-control-lg"
+                  formControlName="edad"
+                  [class.is-invalid]="alumnoForm.controls.edad.touched && alumnoForm.controls.edad.invalid"
+                />
+
+                @if (alumnoForm.controls.edad.touched && alumnoForm.controls.edad.invalid) {
+                  <div class="invalid-feedback d-block">
+                    @if (alumnoForm.controls.edad.errors?.['required']) {
+                      <div>La edad es obligatoria.</div>
+                    }
+                    @if (alumnoForm.controls.edad.errors?.['min']) {
+                      <div>La edad no puede ser menor que 0.</div>
+                    }
+                    @if (alumnoForm.controls.edad.errors?.['max']) {
+                      <div>La edad no puede ser mayor que 100.</div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- FECHA CREACIÓN -->
+              <div class="col-12 col-md-3">
+                <label for="creadoEn" class="form-label fw-semibold">Fecha de creación</label>
+                <input
+                  id="creadoEn"
+                  type="date"
+                  class="form-control form-control-lg"
+                  formControlName="creadoEn"
+                  [class.is-invalid]="alumnoForm.controls.creadoEn.touched && alumnoForm.controls.creadoEn.invalid"
+                />
+
+                @if (alumnoForm.controls.creadoEn.touched && alumnoForm.controls.creadoEn.invalid) {
+                  <div class="invalid-feedback d-block">
+                    @if (alumnoForm.controls.creadoEn.errors?.['required']) {
+                      <div>La fecha de creación es obligatoria.</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- ERROR DE GRUPO -->
+            @if (alumnoForm.errors?.['nombreApellidoIguales']) {
+              <div class="alert alert-danger mt-4 mb-0">
+                El nombre y el apellido no pueden ser iguales.
+              </div>
+            }
+
+          
+
+            <!-- BOTONES -->
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <button
+                type="button"
+                class="btn btn-secondary btn-lg"
+                (click)="cargarEjemplo()"
+              >
+                Cargar ejemplo
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-lg"
+                (click)="resetForm()"
+              >
+                Reset
+              </button>
+
+              <button
+                type="submit"
+                class="btn btn-primary btn-lg"
+                [disabled]="alumnoForm.invalid || alumnoForm.pending"
+              >
+                Enviar
+              </button>
+            </div>
+          </form>
+
+          <!-- PANEL INFORMATIVO
+           separación entre filas y clumnas grid 3 intermedia 
+           con margin top mt 4-->
+          <div class="row g-3 mt-4">
+            <div class="col-12 col-lg-6">
+              <div class="card border-0 bg-light-subtle h-100">
+                <div class="card-body">
+                  <h5 class="card-title">Estado del formulario</h5>
+                  <pre class="mb-0 small">{{
+{
+  valid: alumnoForm.valid,
+  invalid: alumnoForm.invalid,
+  pending: alumnoForm.pending,
+  touched: alumnoForm.touched,
+  dirty: alumnoForm.dirty
+} | json
+                  }}</pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+              <div class="card border-0 bg-light-subtle h-100">
+                <div class="card-body">
+                  <h5 class="card-title">Valor actual</h5>
+                  <pre class="mb-0 small">{{ alumnoForm.value | json }}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          @if (alumnoEnviado) {
+            <div class="alert alert-success mt-4 shadow-sm">
+              <h5 class="mb-2">Alumno enviado correctamente</h5>
+              <pre class="mb-0 small">{{ alumnoEnviado }}</pre>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,84 +1,174 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { map, Observable, of, timer } from 'rxjs';
+import {
+  AbstractControl,
+  AsyncValidatorFn,
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { Observable, of, timer } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
-//esto es "molde" del formulario
 type AlumnoFormControls = {
   nombre: FormControl<string>;
   apellido: FormControl<string>;
   email: FormControl<string>;
   edad: FormControl<number>;
   creadoEn: FormControl<string>;
-}
-
+};
 
 @Component({
   selector: 'app-alumno-form',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './alumno-form.html',
   styleUrl: './alumno-form.css',
 })
-
-
 export class AlumnoForm {
+  /**
+   *NonNullableFormBuilder para que los controles del formulario no queden tipados como T | null, sino como T directamente
+   * ng infiere el tipo al crear el control
+   *
+   * 
+   * sin él, el tipo inferido sería  
+   * const fb = new FormBuilder();
+   * 
+   * const form = fb.group({
+  nombre: '',
+});
+   * 
+   * FormControl<string | null>
+   * 
+   * y con él 
+   * 
+   * private fb = inject(NonNullableFormBuilder);
 
-  //esto es un servicio que me permite crear
-  //formularios infiriendo el tipo del campo (string, number)
-  //y me da un valor por defecto, evitando valores nulos
-  formBuilder = inject(NonNullableFormBuilder)
+form = this.fb.group({
+  nombre: '',
+  apellido: '',
+});
 
-  //definimos el formulario: FormGroup
+FormControl<string>
 
-  alumnoForm: FormGroup<AlumnoFormControls> =
-  this.formBuilder.group(
+ 
+   */
+  private fb = inject(NonNullableFormBuilder);
+
+  /*
+    Formulario reactivo principal.
+
+    Incluye:
+    - validadores síncronos
+    - validador asíncrono en email
+    - validador de grupo
+  */
+
+
+   alumnoForm: FormGroup<AlumnoFormControls> = this.fb.group(
     {
-      nombre : this.formBuilder.control('', {
-        validators: [
-          Validators.required, 
-          Validators.minLength(4),
-          Validators.maxLength(15)
-        ]
-      }),
-      apellido: this.formBuilder.control('',
-        {
-          validators: [
-            Validators.required
-          ]
-        }
-      ),
-      email: this.formBuilder.control('',{
+      nombre: this.fb.control('', {
         validators: [
           Validators.required,
-          Validators.email
-        ]
+          Validators.minLength(4),
+          Validators.maxLength(15),
+        ],
       }),
-      edad: this.formBuilder.control(18, {
+
+      apellido: this.fb.control('', {
+        validators: [Validators.required],
+      }),
+
+      email: this.fb.control('', {
+        validators: [
+          Validators.required,
+          Validators.email,
+        ],
+        asyncValidators: [this.emailOcupadoValidator()],
+        updateOn: 'blur',
+      }),
+
+      edad: this.fb.control(18, {
         validators: [
           Validators.required,
           Validators.min(0),
-          Validators.max(120)
+          Validators.max(100),
         ],
-        asyncValidators: [this.emailOcupadoValidator()]
       }),
-      creadoEn:this.formBuilder.control(this.fechaActual(), 
-    {
-      validators: [Validators.required]
-    })
-    },
-    //añado validadores de grupo a la definición del formulario
-    {
-      validators: [this.nombreApellidoDistintosValidator()]
-    }
-  )
 
-  fechaActual ():string 
-  {
-    return new Date().toISOString().split('T')[0];
+      creadoEn: this.fb.control(this.getTodayDate(), {
+        validators: [Validators.required],
+      }),
+
+
+    },
+    {
+      validators: [this.nombreApellidoDistintosValidator()],
+    }
+  );
+
+  alumnoEnviado: string | null = null;
+
+  /*
+    Carga un ejemplo de datos.
+    Muy útil para mostrar patchValue y para probar el formulario rápido.
+  */
+  cargarEjemplo(): void {
+    this.alumnoForm.patchValue({
+      nombre: 'Carlos',
+      apellido: 'Moreno',
+      email: 'carlos@correo.com',
+      edad: 25,
+      creadoEn: this.getTodayDate(),
+    });
+
+    //esto lo pondríamos porque 
+    //al rellenar con patchvalue, los controles
+    //no aparece ni como dirty ni como touched
+    //y no sale el fallo al cargar un correo incorrecto
+
+    
+    //this.alumnoForm.markAllAsTouched();
+ 
+
+    this.alumnoEnviado = null;
   }
 
+  /*
+    Reinicia el formulario a su estado inicial.
+  */
+  resetForm(): void {
+    this.alumnoForm.reset({
+      nombre: '',
+      apellido: '',
+      email: '',
+      edad: 18,
+      creadoEn: this.getTodayDate(),
+    });
 
-    /*
+    this.alumnoEnviado = null;
+  }
+
+  /*
+    Envío del formulario.
+    Si no es válido o está pendiente, marcamos todo como touched.
+  */
+  submit(): void {
+    if (this.alumnoForm.invalid || this.alumnoForm.pending) {
+      this.alumnoForm.markAllAsTouched();
+      return;
+    }
+
+    this.alumnoEnviado = JSON.stringify(this.alumnoForm.getRawValue(), null, 2);
+    console.log('alumno enviado = ' + this.alumnoEnviado);
+  }
+
+  /*
     =====================================================
     VALIDADORES PERSONALIZADOS
     =====================================================
@@ -87,9 +177,6 @@ export class AlumnoForm {
   /*
     Validador de grupo:
     nombre y apellido no deben ser iguales.
-    Ojo con esta cabecera, que si devuelvo null, estoy diciendo
-    que la validación correcta, mientras que si encuentro un fallo,
-    tengo que devolver el Validation Error campo + valor
   */
   private nombreApellidoDistintosValidator(): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
@@ -108,8 +195,7 @@ export class AlumnoForm {
     };
   }
 
-
-   /*
+  /*
     Validador asíncrono simulado.
     Simula consulta al servidor para detectar emails ya usados.
   */
@@ -137,5 +223,16 @@ export class AlumnoForm {
     return fnValidator;
   }
 
+  /*
+    Devuelve la fecha de hoy en formato compatible con input type="date".
+  */
+  private getTodayDate(): string {
+    return new Date().toISOString().split('T')[0];
+  }
 
+
+  cambiosConfirmados():boolean {
+   return (this.alumnoEnviado!=null) //
+      
+  }
 }

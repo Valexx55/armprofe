@@ -1,0 +1,26 @@
+.alumno-card {
+  border-radius: 1.25rem;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.form-control,
+.form-select,
+.btn,
+.card {
+  border-radius: 0.85rem;
+}
+
+.form-control-lg,
+.btn-lg {
+  min-height: 3rem;
+}
+
+.card-title,
+h2,
+h4 {
+  font-weight: 700;
+}
