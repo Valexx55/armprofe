@@ -117,6 +117,8 @@ FormControl<string>
   /*
     Carga un ejemplo de datos.
     Muy útil para mostrar patchValue y para probar el formulario rápido.
+    Para programadores, que quierien inicializar con datos formualrio
+    y no hacerlo manualmente (sin que salten las vali)
   */
   cargarEjemplo(): void {
     this.alumnoForm.patchValue({
@@ -132,12 +134,17 @@ FormControl<string>
     //no aparece ni como dirty ni como touched
     //y no sale el fallo al cargar un correo incorrecto
 
-    
+    //si yo invoco esta línea, estoy haciendo que el 
+    //fomrulario sea consciente del cambio de estado y valide
+    //si no, con el patchValue, modificado el estado "silenciosamente"
+
     //this.alumnoForm.markAllAsTouched();
  
 
     this.alumnoEnviado = null;
   }
+
+
 
   /*
     Reinicia el formulario a su estado inicial.
@@ -159,13 +166,13 @@ FormControl<string>
     Si no es válido o está pendiente, marcamos todo como touched.
   */
   submit(): void {
-    if (this.alumnoForm.invalid || this.alumnoForm.pending) {
-      this.alumnoForm.markAllAsTouched();
-      return;
+    if (this.alumnoForm.valid && !this.alumnoForm.pending) {
+    
+      this.alumnoEnviado = JSON.stringify(this.alumnoForm.getRawValue(), null, 2);
+      console.log('alumno enviado = ' + this.alumnoEnviado);
     }
 
-    this.alumnoEnviado = JSON.stringify(this.alumnoForm.getRawValue(), null, 2);
-    console.log('alumno enviado = ' + this.alumnoEnviado);
+    
   }
 
   /*
@@ -230,7 +237,7 @@ FormControl<string>
     return new Date().toISOString().split('T')[0];
   }
 
-
+//lo usaré después para las guards
   cambiosConfirmados():boolean {
    return (this.alumnoEnviado!=null) //
       
