@@ -35,8 +35,8 @@ export class ListadoAlumnos implements OnInit {
   ngOnInit(): void {
     
     
-    this.varianteZoneLessFallida();
-    //this.varianteZoneLessFuncional();
+    //this.varianteZoneLessFallida();
+    this.varianteZoneLessFuncional();
    
   }
 

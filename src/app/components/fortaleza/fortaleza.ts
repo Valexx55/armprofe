@@ -29,6 +29,24 @@ export class Fortaleza implements OnInit {
     //PARA ELLO HAGO UN EFFECT (UNA ACCIÓN). AL CONTRARIO QUE CON 
     //COMPUTED NO HAGO UN CÁLCULO DERIVADO, SINO QUE ACOMETO UNA ACCIÓN
 
+    /* para que funcione esta sección, debería asegurarme de que 
+    estoy en navegador. porque si es SSR o SSG (se interepreta en el servidor)
+    fallaría (antiguamente Angular Universal) no puedo usar el API del navegador
+    */
+
+    /*
+     let nombreGuardado = localStorage.getItem('registro_nombre');
+     let pwdGuardada =   localStorage.getItem('registro_password');
+
+     if (nombreGuardado)
+     {
+      this.nombre.set(nombreGuardado)
+     }
+
+     if (pwdGuardada)
+     {
+      this.password.set(pwdGuardada)
+     }*/
     //IMPORTANTE: HAY QUE DEFINIR LOS EFFECTS EN EL CONSTRUCTOR
     effect(() => {
         localStorage.setItem('registro_nombre', this.nombre());
