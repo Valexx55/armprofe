@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, OnInit, effect } from '@angular/core';
 
 
 type UsuarioCreado = {
@@ -14,10 +14,27 @@ type UsuarioCreado = {
   templateUrl: './fortaleza.html',
   styleUrl: './fortaleza.css',
 })
-export class Fortaleza {
+export class Fortaleza implements OnInit {
 
   fuerte:boolean = false;
   titulo: string = 'ALTA DE USUARIO';
+
+  ngOnInit(){
+    console.log ("Creado el componente")
+  }
+
+  constructor()
+  {
+    //CADA VEZ QUE SE MODIFIQUEN NOMBRE Y PASSWORD, YO LOS GUARDO
+    //PARA ELLO HAGO UN EFFECT (UNA ACCIÓN). AL CONTRARIO QUE CON 
+    //COMPUTED NO HAGO UN CÁLCULO DERIVADO, SINO QUE ACOMETO UNA ACCIÓN
+
+    //IMPORTANTE: HAY QUE DEFINIR LOS EFFECTS EN EL CONSTRUCTOR
+    effect(() => {
+        localStorage.setItem('registro_nombre', this.nombre());
+        localStorage.setItem('registro_password', this.password());
+    });
+  }
 
   /**
    *
@@ -28,6 +45,12 @@ export class Fortaleza {
   nombre = signal('');
   password = signal('');
 
+
+
+
+
+
+
   /*
   cuando el nombre y la contraseña cambien
   vamos a reevaluar su ideneoidad de manera automática
@@ -37,7 +60,7 @@ export class Fortaleza {
   dato derivado, calculado 
   */
 
-  tieneMinimoCaracteres = computed(() => this.password().length >= 8);
+   tieneMinimoCaracteres = computed(() => this.password().length >= 8);
 
   //esto no funcionaría porque no está envuelto por computed
   //al inicio valdría false, pero no se cambiaría cuando cambie el
@@ -47,17 +70,17 @@ export class Fortaleza {
   /**
    * Computed: indica si la contraseña contiene al menos una mayúscula.
    */
-  tieneMayuscula = computed(() => /[A-ZÁÉÍÓÚÜÑ]/.test(this.password()));
+   tieneMayuscula = computed(() => /[A-ZÁÉÍÓÚÜÑ]/.test(this.password()));
 
   /**
    * Computed: indica si la contraseña contiene al menos un número.
    */
-  tieneNumero = computed(() => /\d/.test(this.password()));
+   tieneNumero = computed(() => /\d/.test(this.password()));
 
   /**
    * Computed: indica si la contraseña contiene al menos un símbolo.
    */
-  tieneSimbolo = computed(() => /[^A-Za-z0-9]/.test(this.password()));
+   tieneSimbolo = computed(() => /[^A-Za-z0-9]/.test(this.password()));
 
   puntuacionPassword = computed(() => {
     let puntos = 0;
@@ -167,5 +190,6 @@ export class Fortaleza {
     };
     }
   }
-
+  
+  
 }
