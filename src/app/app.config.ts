@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -8,8 +8,9 @@ import { provideHttpClient } from '@angular/common/http';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    //provideZoneChangeDetection({ eventCoalescing: true }), //eliminamos ZOne JS como vigilante de los cambios/estado en los componentes
     provideRouter(routes), provideClientHydration(withEventReplay()),
-    provideHttpClient()//permite cargar el móudlo http, para poder conectaros a un api web
+    provideHttpClient(),//permite cargar el móudlo http, para poder conectaros a un api web
+    provideZonelessChangeDetection()//hacemos que nuestro proyecto sea zoneLess
   ]
 };

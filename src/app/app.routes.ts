@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { Fortaleza } from './components/fortaleza/fortaleza';
 import { AlumnoForm } from './components/alumno-form/alumno-form';
 import { ListadoAlumnos } from './components/listado-alumnos/listado-alumnos';
+import { AlumnoService } from './services/alumno-service';
 
 export const routes: Routes = [
     {
@@ -12,6 +13,7 @@ export const routes: Routes = [
     } ,
     {
         path: 'alumno',
+        providers: [AlumnoService],
         children: [
             {path: 'form', component: AlumnoForm}, //alumno/form
             {path: 'listado', component: ListadoAlumnos}
