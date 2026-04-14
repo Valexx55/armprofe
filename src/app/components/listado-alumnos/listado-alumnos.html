@@ -1,0 +1,11 @@
+<h2>Listado de alumnos</h2>
+
+@if (alumnos.length > 0) {
+  <ul>
+    @for (alumno of alumnos; track alumno.id) {
+      <li>{{ alumno.nombre }}</li>
+    }
+  </ul>
+} @else {
+  <p>No hay alumnos cargados</p>
+} 
