@@ -3,10 +3,11 @@ import { AlumnoService } from '../../services/alumno-service';
 import { Alumno } from '../../models/alumno';
 import { AsyncPipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-listado-alumnos',
-  imports: [AsyncPipe],//aunque use Zoneless, async va a funcionar porque intermente, invoca una detección de cambios
+  imports: [AsyncPipe, RouterLink],//aunque use Zoneless, async va a funcionar porque intermente, invoca una detección de cambios
   templateUrl: './listado-alumnos.html',
   styleUrl: './listado-alumnos.css',
 })
@@ -20,10 +21,9 @@ export class ListadoAlumnos implements OnInit {
   alumnos$ = this.alumnoService.leerTodosLosAlumnos();
 
   //toSignal() ==> llevar un observable al mundo signlas del componente
-  alumnosSignal = toSignal(this.alumnoService.leerTodosLosAlumnos(), 
-  {initialValue: []});
+  //alumnosSignal = toSignal(this.alumnoService.leerTodosLosAlumnos(), {initialValue: []});
 
-  totalAlumnos = computed(()=> this.alumnosSignal().length );
+  //totalAlumnos = computed(()=> this.alumnosSignal().length );
 
   chdr = inject(ChangeDetectorRef); //este realmente, es el objeto que lanza los ciclos de revisión de estado de componente
 
@@ -47,7 +47,7 @@ export class ListadoAlumnos implements OnInit {
     
     
     //this.varianteZoneLessFallida();
-    this.varianteZoneLessFuncional();
+    //this.varianteZoneLessFuncional();
    
   }
 

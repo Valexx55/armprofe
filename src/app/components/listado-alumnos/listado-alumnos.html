@@ -10,22 +10,35 @@
   <p>No hay alumnos cargados</p>
 }  -->
 
-<!-- 
+ 
 <h2>Listado de alumnos CON AsyncPipe</h2>
 
 
 @if (alumnos$ | async; as lista) {
   <ul>
     @for (alumno of lista; track alumno.id) {
-      <li>{{ alumno.nombre }}</li>
+       <li class="alumno-item">
+        <a class="alumno-link" [routerLink]="['/alumno', alumno.id]"> 
+        <img class="alumno-avatar"
+        [src]="
+            'https://randomuser.me/api/portraits/' +
+            (alumno.id % 2 === 0 ? 'women/' : 'men/') +
+            alumno.id +
+            '.jpg'
+          "
+          [alt]="'Foto de ' + alumno.nombre"
+          >
+          <span class="alumno-nombre">{{ alumno.nombre }}</span>
+          </a>
+        </li>
     }
   </ul>
 } @else {
   <p>Cargando alumnos...</p>
-} -->
+} 
 
 
-
+<!-- 
 <h2>Listado de alumnos CON toSignal</h2>
 
 <p>Total: {{ totalAlumnos() }}</p>
@@ -38,4 +51,4 @@
   </ul>
 } @else {
   <p>Cargando alumnos...</p>
-}
+} -->

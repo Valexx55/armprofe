@@ -5,6 +5,7 @@ import { ListadoAlumnos } from './components/listado-alumnos/listado-alumnos';
 import { AlumnoService } from './services/alumno-service';
 import { ALUMNO_API_URL } from './config/api.token';
 import { environment } from '../environments/environment';
+import { AlumnoDetalle } from './components/alumno-detalle/alumno-detalle';
 
 export const routes: Routes = [
     {
@@ -23,7 +24,8 @@ export const routes: Routes = [
         ],
         children: [
             {path: 'form', component: AlumnoForm}, //alumno/form
-            {path: 'listado', component: ListadoAlumnos}
+            {path: 'listado', component: ListadoAlumnos},
+            {path: ':id', component: AlumnoDetalle}
         ]
     }
 ];
