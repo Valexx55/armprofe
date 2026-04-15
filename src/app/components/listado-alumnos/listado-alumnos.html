@@ -16,17 +16,20 @@
 
 @if (alumnos$ | async; as lista) {
   <ul>
-    @for (alumno of lista; track alumno.id) {
+    @for (alumno of lista; track alumno.id; let primero=$first) {
        <li class="alumno-item">
         <a class="alumno-link" [routerLink]="['/alumno', alumno.id]"> 
         <img class="alumno-avatar"
-        [src]="
+        [ngSrc]="
             'https://randomuser.me/api/portraits/' +
             (alumno.id % 2 === 0 ? 'women/' : 'men/') +
             alumno.id +
             '.jpg'
           "
+          width="64"
+          height="64"
           [alt]="'Foto de ' + alumno.nombre"
+          [priority]="primero"
           >
           <span class="alumno-nombre">{{ alumno.nombre }}</span>
           </a>

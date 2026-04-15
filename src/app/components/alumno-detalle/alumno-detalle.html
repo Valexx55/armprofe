@@ -5,9 +5,11 @@
     <!-- <a class="volver" [routerLink]="['/alumno', 'listado']">Volver al listado</a> -->
     <a class="volver" routerLink='/alumno/listado'>Volver al listado</a>
     <div class="card">
-        <img class="avatar-grande" [src]="getFotoUrl(alumno.id)" 
+        <img class="avatar-grande" 
+        [ngSrc]="getFotoUrl(alumno.id)" 
         width="160"
-        height="160">
+        height="160"
+        priority>
 
         <div class="info">
             <h2>{{ alumno.nombre }} {{ alumno.apellido }}</h2>

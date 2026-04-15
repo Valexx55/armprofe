@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AlumnoService } from '../../services/alumno-service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map, switchMap } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 
 //por defecto es standAlone
 
@@ -17,7 +17,7 @@ import { AsyncPipe } from '@angular/common';
  */
 @Component({
   selector: 'app-alumno-detalle',
-  imports: [AsyncPipe, RouterLink],
+  imports: [AsyncPipe, RouterLink, NgOptimizedImage],
   templateUrl: './alumno-detalle.html',
   styleUrl: './alumno-detalle.css',
 })

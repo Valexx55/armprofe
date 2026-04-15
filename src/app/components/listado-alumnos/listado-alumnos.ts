@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, computed, inject, OnInit } from '@angular/core';
 import { AlumnoService } from '../../services/alumno-service';
 import { Alumno } from '../../models/alumno';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-listado-alumnos',
-  imports: [AsyncPipe, RouterLink],//aunque use Zoneless, async va a funcionar porque intermente, invoca una detección de cambios
+  imports: [AsyncPipe, RouterLink, NgOptimizedImage],//aunque use Zoneless, async va a funcionar porque intermente, invoca una detección de cambios
   templateUrl: './listado-alumnos.html',
   styleUrl: './listado-alumnos.css',
 })
