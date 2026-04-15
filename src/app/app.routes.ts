@@ -25,7 +25,13 @@ export const routes: Routes = [
         children: [
             {path: 'form', component: AlumnoForm}, //alumno/form
             {path: 'listado', component: ListadoAlumnos},
-            {path: ':id', component: AlumnoDetalle}
+            //{path: ':id', component: AlumnoDetalle} //eager loading - el componente se carga al inicio
+            {
+                path: ':id',
+                ////se carga en diferido, menos JS inicial, mejora tiempo de arranque. Angular divide el bundle
+                loadComponent: () => import('./components/alumno-detalle/alumno-detalle').then (m => m.AlumnoDetalle) 
+                
+            } //lazy loading sobre componentes stand-alone, carga bajo demanda
         ]
     }
 ];

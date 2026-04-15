@@ -1,1 +1,31 @@
-<p>alumno-detalle works!</p>
+@if (alumno$ | async; as alumno)
+{
+<section class="detalle">
+    <!-- obligatorio para rutas dinámicas [routerLink] opcional para fijas -->
+    <!-- <a class="volver" [routerLink]="['/alumno', 'listado']">Volver al listado</a> -->
+    <a class="volver" routerLink='/alumno/listado'>Volver al listado</a>
+    <div class="card">
+        <img class="avatar-grande" [src]="getFotoUrl(alumno.id)" 
+        width="160"
+        height="160">
+
+        <div class="info">
+            <h2>{{ alumno.nombre }} {{ alumno.apellido }}</h2>
+            <p><strong>ID:</strong> {{ alumno.id }}</p>
+            <p><strong>Email:</strong> {{ alumno.email }}</p>
+            <p><strong>Edad:</strong> {{ alumno.edad }}</p>
+            <p><strong>Creado en:</strong> {{ alumno.creadoEn }}</p>
+
+            <div class="acciones">
+                <button type="button" (click)="irAnterior(alumno.id)">Anterior</button>
+                <button type="button" (click)="irSiguiente(alumno.id)">Siguiente</button>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+} @else {
+<p>Cargando alumno ...</p>
+}
