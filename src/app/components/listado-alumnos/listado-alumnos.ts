@@ -1,10 +1,12 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, inject, OnInit } from '@angular/core';
 import { AlumnoService } from '../../services/alumno-service';
 import { Alumno } from '../../models/alumno';
+import { AsyncPipe } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-listado-alumnos',
-  imports: [],
+  imports: [AsyncPipe],//aunque use Zoneless, async va a funcionar porque intermente, invoca una detección de cambios
   templateUrl: './listado-alumnos.html',
   styleUrl: './listado-alumnos.css',
 })
@@ -13,6 +15,15 @@ export class ListadoAlumnos implements OnInit {
 
   alumnoService = inject(AlumnoService);
   alumnos: Alumno[] = [];
+
+  //para lo valores reactivos/observable se usa por convención el $
+  alumnos$ = this.alumnoService.leerTodosLosAlumnos();
+
+  //toSignal() ==> llevar un observable al mundo signlas del componente
+  alumnosSignal = toSignal(this.alumnoService.leerTodosLosAlumnos(), 
+  {initialValue: []});
+
+  totalAlumnos = computed(()=> this.alumnosSignal().length );
 
   chdr = inject(ChangeDetectorRef); //este realmente, es el objeto que lanza los ciclos de revisión de estado de componente
 

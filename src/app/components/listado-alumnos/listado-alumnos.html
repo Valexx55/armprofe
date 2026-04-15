@@ -1,4 +1,4 @@
-<h2>Listado de alumnos zoneless</h2>
+<!-- <h2>Listado de alumnos zoneless</h2>
 
 @if (alumnos.length > 0) {
   <ul>
@@ -8,4 +8,34 @@
   </ul>
 } @else {
   <p>No hay alumnos cargados</p>
-} 
+}  -->
+
+<!-- 
+<h2>Listado de alumnos CON AsyncPipe</h2>
+
+
+@if (alumnos$ | async; as lista) {
+  <ul>
+    @for (alumno of lista; track alumno.id) {
+      <li>{{ alumno.nombre }}</li>
+    }
+  </ul>
+} @else {
+  <p>Cargando alumnos...</p>
+} -->
+
+
+
+<h2>Listado de alumnos CON toSignal</h2>
+
+<p>Total: {{ totalAlumnos() }}</p>
+
+@if (alumnosSignal().length > 0) {
+  <ul>
+    @for (alumno of alumnosSignal(); track alumno.id) {
+      <li>{{ alumno.nombre }}</li>
+    }
+  </ul>
+} @else {
+  <p>Cargando alumnos...</p>
+}
