@@ -6,12 +6,15 @@ import { AlumnoService } from './services/alumno-service';
 import { ALUMNO_API_URL } from './config/api.token';
 import { environment } from '../environments/environment';
 import { AlumnoDetalle } from './components/alumno-detalle/alumno-detalle';
+import { controlAltaFormGuardGuard } from './guards/control-alta-form-guard-guard';
+import { Login } from './components/login/login';
 
 export const routes: Routes = [
     {
         path: '',
         children: [
             {path: 'fortaleza', component: Fortaleza},
+            {path: 'login', component: Login},
         ]
     } ,
     {
@@ -23,7 +26,7 @@ export const routes: Routes = [
             }
         ],
         children: [
-            {path: 'form', component: AlumnoForm}, //alumno/form
+            {path: 'form', component: AlumnoForm, canActivate: [controlAltaFormGuardGuard]}, //alumno/form
             {path: 'listado', component: ListadoAlumnos},
             //{path: ':id', component: AlumnoDetalle} //eager loading - el componente se carga al inicio
             {
