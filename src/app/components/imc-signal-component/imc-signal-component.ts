@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 
@@ -8,6 +8,9 @@ type ImcFormControls = {
   altura: FormControl<number>;
 };
 
+type ImcResultado = {
+  
+}
 @Component({
   selector: 'app-imc-signal-component',
   imports: [ReactiveFormsModule],
@@ -16,6 +19,8 @@ type ImcFormControls = {
   standalone: true
 })
 export class ImcSignalComponent {
+
+   imcNumericoActual = signal(0);
 
    private fb = inject(NonNullableFormBuilder);
 
@@ -27,6 +32,7 @@ export class ImcSignalComponent {
           Validators.min(1),
           Validators.max(300),
         ],
+        updateOn: 'submit'
       }),
 
       altura: this.fb.control(0, {
@@ -35,6 +41,7 @@ export class ImcSignalComponent {
           Validators.min(0.5),
           Validators.max(2.50),
         ],
+        updateOn: 'submit'
       })
 
     }
@@ -42,6 +49,16 @@ export class ImcSignalComponent {
 
   calcularImc()
   {
-
+    if (this.imcForm.valid)
+    {
+      console.log('Formulario válido');
+      let imc = this.imcForm.controls.peso.value / (this.imcForm.controls.altura.value * this.imcForm.controls.altura.value); 
+      console.log('Imc calculado = ' + imc);
+      this.imcNumericoActual.set(imc);
+    }
   }
+
+  resutaldoImc = computed(()=> {
+
+  })
 }

@@ -1,3 +1,4 @@
+<!-- Alumno cargado dentro del componente -->
 @if (alumno$ | async; as alumno)
 {
 <section class="detalle">
@@ -21,6 +22,42 @@
             <div class="acciones">
                 <button type="button" (click)="irAnterior(alumno.id)">Anterior</button>
                 <button type="button" (click)="irSiguiente(alumno.id)">Siguiente</button>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+} @else {
+<p>Cargando alumno ...</p>
+}
+
+<!-- Alumno precargado -->
+
+@if (alumnoResolver$ | async; as alumno2)
+{
+<section class="detalle">
+    <!-- obligatorio para rutas dinámicas [routerLink] opcional para fijas -->
+    <!-- <a class="volver" [routerLink]="['/alumno', 'listado']">Volver al listado</a> -->
+    <a class="volver" routerLink='/alumno/listado'>Volver al listado</a>
+    <div class="card">
+        <img class="avatar-grande" 
+        [ngSrc]="getFotoUrl(alumno2.id)" 
+        width="160"
+        height="160"
+        priority>
+
+        <div class="info">
+            <h2>{{ alumno2.nombre }} {{ alumno2.apellido }}</h2>
+            <p><strong>ID:</strong> {{ alumno2.id }}</p>
+            <p><strong>Email:</strong> {{ alumno2.email }}</p>
+            <p><strong>Edad:</strong> {{ alumno2.edad }}</p>
+            <p><strong>Creado en:</strong> {{ alumno2.creadoEn }}</p>
+
+            <div class="acciones">
+                <button type="button" (click)="irAnterior(alumno2.id)">Anterior</button>
+                <button type="button" (click)="irSiguiente(alumno2.id)">Siguiente</button>
             </div>
         </div>
 

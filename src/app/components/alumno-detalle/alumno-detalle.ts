@@ -3,6 +3,7 @@ import { AlumnoService } from '../../services/alumno-service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { Alumno } from '../../models/alumno';
 
 //por defecto es standAlone
 
@@ -27,11 +28,21 @@ export class AlumnoDetalle implements OnInit, OnDestroy {
   private router = inject (Router); //para enrutar progrmáticamente
   private activateRoute = inject(ActivatedRoute); //para controlar la ruta activa location
 
+  
   alumno$ = this.activateRoute.paramMap.pipe //observamos la ruta
   (
     map(params => Number(params.get('id'))), //extraemos el id actual
     switchMap(id => this.alumnoService.getAlumnoById(id)) //obtenemos el alumno actual alumno$
   ) 
+
+  /**
+   * 
+   * obtenmos el alumno precargado del activate route
+   */
+
+  alumnoResolver$=  this.activateRoute.data.pipe(
+    map(data => data['alumnoPre'] as Alumno)
+  )
   
   getFotoUrl (id: number):string
   {

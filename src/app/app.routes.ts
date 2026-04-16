@@ -14,6 +14,7 @@ import { controlSalidaFormAlumnoGuard } from './guards/control-salida-form-alumn
 import { inject } from '@angular/core';
 import { AuthenticationService } from './services/authentication-service';
 import { controlDetalleAlumnoGuard } from './guards/control-detalle-alumno-guard';
+import { alumnoDetalleResolverResolver } from './resolvers/alumno-detalle-resolver-resolver';
 
 export const routes: Routes = [
   {
@@ -47,15 +48,20 @@ export const routes: Routes = [
       { path: 'listado', component: ListadoAlumnos },
       //{path: ':id', component: AlumnoDetalle} //eager loading - el componente se carga al inicio
       {
-        path: ':id',
-        //TODO: hacer la versión con el fichero aparte
-        //puedo poner el cuerpo de la función o hacer un fichero con ella en guards
-        /*canMatch: [()=>{
+         /*canMatch: [()=>{
             let serivicioAuth = inject(AuthenticationService);
             let autenticado = serivicioAuth.autenticado();
             return autenticado;
         }
         ],*/
+        path: ':id',
+        //precargamos el alumno
+        //1 se carga el código lazy de la ruta
+        //2 se ejecuta el resolver (ya tengo la info del alumno)
+        //3 se activa el componente y se muestra
+        resolve: {
+          alumnoPre: alumnoDetalleResolverResolver
+        },
         canMatch: [controlDetalleAlumnoGuard],
         ////se carga en diferido, menos JS inicial, mejora tiempo de arranque. Angular divide el bundle
         loadComponent: () =>
