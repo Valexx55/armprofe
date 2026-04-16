@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes, CanMatchFn } from '@angular/router';
 import { Fortaleza } from './components/fortaleza/fortaleza';
 import { AlumnoForm } from './components/alumno-form/alumno-form';
 import { ListadoAlumnos } from './components/listado-alumnos/listado-alumnos';
@@ -11,6 +11,9 @@ import { Login } from './components/login/login';
 import { controlSeccionAlumnoGuard } from './guards/control-seccion-alumno-guard';
 import { ImcSignalComponent } from './components/imc-signal-component/imc-signal-component';
 import { controlSalidaFormAlumnoGuard } from './guards/control-salida-form-alumno-guard';
+import { inject } from '@angular/core';
+import { AuthenticationService } from './services/authentication-service';
+import { controlDetalleAlumnoGuard } from './guards/control-detalle-alumno-guard';
 
 export const routes: Routes = [
   {
@@ -45,10 +48,25 @@ export const routes: Routes = [
       //{path: ':id', component: AlumnoDetalle} //eager loading - el componente se carga al inicio
       {
         path: ':id',
+        //TODO: hacer la versión con el fichero aparte
+        //puedo poner el cuerpo de la función o hacer un fichero con ella en guards
+        /*canMatch: [()=>{
+            let serivicioAuth = inject(AuthenticationService);
+            let autenticado = serivicioAuth.autenticado();
+            return autenticado;
+        }
+        ],*/
+        canMatch: [controlDetalleAlumnoGuard],
         ////se carga en diferido, menos JS inicial, mejora tiempo de arranque. Angular divide el bundle
         loadComponent: () =>
           import('./components/alumno-detalle/alumno-detalle').then((m) => m.AlumnoDetalle),
       }, //lazy loading sobre componentes stand-alone, carga bajo demanda
+      {
+        path: ':id',
+        ////se carga en diferido, menos JS inicial, mejora tiempo de arranque. Angular divide el bundle
+        loadComponent: () =>
+          import('./components/alumno-menos-detalle/alumno-menos-detalle').then((m) => m.AlumnoMenosDetalle),
+      }
     ],
   },
 ];

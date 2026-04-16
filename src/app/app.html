@@ -36,6 +36,15 @@
           [class.text-bg-secondary]="!authServ.autenticado()">
           {{ authServ.autenticado() ? 'Autenticado' : 'No autenticado' }}
         </span>
+
+        <button
+          class="btn btn-sm"
+          [class.btn-success]="!authServ.autenticado()"
+          [class.btn-outline-light]="authServ.autenticado()"
+          (click)="cambioAuth()"
+          >
+          {{authServ.autenticado() ? 'Logout' : 'Login'}}
+        </button>
       </div>
 
 

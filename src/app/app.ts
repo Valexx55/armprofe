@@ -13,4 +13,22 @@ export class App {
   protected readonly title = signal('armprofe');
   authServ =  inject(AuthenticationService);
 
+   login () {
+    this.authServ.login();
+    console.log('entrando login . . .');
+    
+  }
+
+  logout ()
+  {
+    this.authServ.login();
+
+    console.log('entrando saliendo . . .');
+    
+  }
+
+  cambioAuth() {
+    this.authServ.cambioLog();
+  }
+
 }

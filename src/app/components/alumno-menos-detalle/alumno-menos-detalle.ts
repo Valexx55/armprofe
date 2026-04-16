@@ -4,24 +4,13 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 
-//por defecto es standAlone
-
-/**
- * Imporntante: destacar el efecto del reuse
- * lo trae Angular de serie. Si cambio en un ruta
- * sólo sus parámetros, el componente no se destruye
- * y se vuelve a crear
- * 
- * 
- * reuse básico https://angular.dev/api/router/BaseRouteReuseStrategy
- */
 @Component({
-  selector: 'app-alumno-detalle',
+  selector: 'app-alumno-menos-detalle',
   imports: [AsyncPipe, RouterLink, NgOptimizedImage],
-  templateUrl: './alumno-detalle.html',
-  styleUrl: './alumno-detalle.css',
+  templateUrl: './alumno-menos-detalle.html',
+  styleUrl: './alumno-menos-detalle.css',
 })
-export class AlumnoDetalle implements OnInit, OnDestroy {
+export class AlumnoMenosDetalle implements OnInit, OnDestroy {
 
   private alumnoService = inject(AlumnoService);
   private router = inject (Router); //para enrutar progrmáticamente
@@ -62,5 +51,4 @@ export class AlumnoDetalle implements OnInit, OnDestroy {
   {
       this.router.navigate(['/alumno', id+1]);
   }
-
 }
