@@ -8,6 +8,8 @@ import { environment } from '../environments/environment';
 import { AlumnoDetalle } from './components/alumno-detalle/alumno-detalle';
 import { controlAltaFormGuardGuard } from './guards/control-alta-form-guard-guard';
 import { Login } from './components/login/login';
+import { controlSeccionAlumnoGuard } from './guards/control-seccion-alumno-guard';
+import { ImcSignalComponent } from './components/imc-signal-component/imc-signal-component';
 
 export const routes: Routes = [
     {
@@ -15,10 +17,16 @@ export const routes: Routes = [
         children: [
             {path: 'fortaleza', component: Fortaleza},
             {path: 'login', component: Login},
+            {path: 'imc', component: ImcSignalComponent},
+            
         ]
     } ,
     {
         path: 'alumno',
+        canActivateChild: /*[()=>{
+            window.alert('No te dejamos pasar');
+            return false}]*/
+            [controlSeccionAlumnoGuard],
         providers: [AlumnoService,
             {
                 provide: ALUMNO_API_URL,
