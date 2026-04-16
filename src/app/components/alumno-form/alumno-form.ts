@@ -239,7 +239,7 @@ FormControl<string>
 
 //lo usaré después para las guards
   cambiosConfirmados():boolean {
-   return (this.alumnoEnviado!=null) //
+   return (this.alumnoEnviado!=null) //si ha introducido datos y los ha enviado (submit)
       
   }
 }

@@ -13,6 +13,7 @@ type ImcFormControls = {
   imports: [ReactiveFormsModule],
   templateUrl: './imc-signal-component.html',
   styleUrl: './imc-signal-component.css',
+  standalone: true
 })
 export class ImcSignalComponent {
 
@@ -41,6 +42,6 @@ export class ImcSignalComponent {
 
   calcularImc()
   {
-    
+
   }
 }

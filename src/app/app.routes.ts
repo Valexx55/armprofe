@@ -10,39 +10,45 @@ import { controlAltaFormGuardGuard } from './guards/control-alta-form-guard-guar
 import { Login } from './components/login/login';
 import { controlSeccionAlumnoGuard } from './guards/control-seccion-alumno-guard';
 import { ImcSignalComponent } from './components/imc-signal-component/imc-signal-component';
+import { controlSalidaFormAlumnoGuard } from './guards/control-salida-form-alumno-guard';
 
 export const routes: Routes = [
-    {
-        path: '',
-        children: [
-            {path: 'fortaleza', component: Fortaleza},
-            {path: 'login', component: Login},
-            {path: 'imc', component: ImcSignalComponent},
-            
-        ]
-    } ,
-    {
-        path: 'alumno',
-        canActivateChild: /*[()=>{
+  {
+    path: '',
+    children: [
+      { path: 'fortaleza', component: Fortaleza },
+      { path: 'login', component: Login },
+      { path: 'imc', component: ImcSignalComponent },
+    ],
+  },
+  {
+    path: 'alumno',
+    /*[()=>{
             window.alert('No te dejamos pasar');
             return false}]*/
-            [controlSeccionAlumnoGuard],
-        providers: [AlumnoService,
-            {
-                provide: ALUMNO_API_URL,
-                useValue: environment.alumnoApiUrl
-            }
-        ],
-        children: [
-            {path: 'form', component: AlumnoForm, canActivate: [controlAltaFormGuardGuard]}, //alumno/form
-            {path: 'listado', component: ListadoAlumnos},
-            //{path: ':id', component: AlumnoDetalle} //eager loading - el componente se carga al inicio
-            {
-                path: ':id',
-                ////se carga en diferido, menos JS inicial, mejora tiempo de arranque. Angular divide el bundle
-                loadComponent: () => import('./components/alumno-detalle/alumno-detalle').then (m => m.AlumnoDetalle) 
-                
-            } //lazy loading sobre componentes stand-alone, carga bajo demanda
-        ]
-    }
+    canActivateChild: [controlSeccionAlumnoGuard],
+    providers: [
+      AlumnoService,
+      {
+        provide: ALUMNO_API_URL,
+        useValue: environment.alumnoApiUrl,
+      },
+    ],
+    children: [
+      {
+        path: 'form',
+        component: AlumnoForm,
+        canActivate: [controlAltaFormGuardGuard],
+        canDeactivate: [controlSalidaFormAlumnoGuard],
+      }, //alumno/form
+      { path: 'listado', component: ListadoAlumnos },
+      //{path: ':id', component: AlumnoDetalle} //eager loading - el componente se carga al inicio
+      {
+        path: ':id',
+        ////se carga en diferido, menos JS inicial, mejora tiempo de arranque. Angular divide el bundle
+        loadComponent: () =>
+          import('./components/alumno-detalle/alumno-detalle').then((m) => m.AlumnoDetalle),
+      }, //lazy loading sobre componentes stand-alone, carga bajo demanda
+    ],
+  },
 ];

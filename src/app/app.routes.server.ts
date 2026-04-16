@@ -5,9 +5,13 @@ export const serverRoutes: ServerRoute[] = [
     path: '**', //por defecto, todos nuestros compoennte son CSR (se dibujan, se crean el cliente)
     renderMode: RenderMode.Client
   },
+  /*{
+    path: 'imc',
+    renderMode: RenderMode.Prerender //SSG Static Site Generation -- SEO (info estática) La página queda definida el servidor, para su consumo directo vía URL
+  },*/
   {
     path: 'fortaleza',
-    renderMode: RenderMode.Prerender //SSG Static Side Generation -- SEO (info estática) La página queda definida el servidor, para su consumo directo vía URL
+    renderMode: RenderMode.Prerender //SSG Static Site Generation -- SEO (info estática) La página queda definida el servidor, para su consumo directo vía URL
   },
   {
     path: 'alumno/listado',
