@@ -1,59 +1,69 @@
-# Armprofe
+# Recursos útiles de Angular y web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.0.
+Este README recopila enlaces de referencia útiles para trabajar y profundizar en Angular, JavaScript y rendimiento web.
 
-## Development server
+## Angular
 
-To start a local development server, run:
+### Instalación
+- [Installation • Angular](https://angular.dev/installation)
 
-```bash
-ng serve
-```
+### Signals
+- [Signals • Overview • Angular](https://angular.dev/guide/signals)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Formularios reactivos
+- [Reactive forms • Angular](https://angular.dev/guide/forms/reactive-forms)
 
-## Code scaffolding
+### Deferred loading
+- [Deferred loading with @defer • Angular](https://angular.dev/guide/templates/defer)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Entornos
+- [Build environments • Angular](https://angular.dev/tools/cli/environments)
 
-```bash
-ng generate component component-name
-```
+### Routing y guards
+- [CanDeactivateFn • Angular](https://angular.dev/api/router/CanDeactivateFn)
+- [Customizing route behavior • Angular](https://angular.dev/guide/routing/customizing-route-behavior)
+- [BaseRouteReuseStrategy • Angular](https://angular.dev/api/router/BaseRouteReuseStrategy)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Zone.js
+- [angular/packages/zone.js/MODULE.md at main · angular/angular](https://github.com/angular/angular/blob/main/packages/zone.js/MODULE.md)
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+## JavaScript
 
-To build the project run:
+### Spread syntax
+- [Sintaxis Spread - JavaScript | MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 
-```bash
-ng build
-```
+### Desestructuración
+- [La desestructuración - JavaScript | MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Operators/Destructuring)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## APIs web
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Web Workers
+- [Usando Web Workers - API web | MDN](https://developer.mozilla.org/es/docs/Web/API/Web_Workers_API/Using_web_workers)
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+## Rendimiento web
 
-For end-to-end (e2e) testing, run:
+### Web Vitals
+- [Web Vitals | Articles | web.dev](https://web.dev/articles/vitals?hl=es-419)
 
-```bash
-ng e2e
-```
+---
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Sugerencia de uso
 
-## Additional Resources
+Una posible ruta de estudio con estos recursos sería:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Instalación de Angular.
+2. Formularios reactivos.
+3. Signals.
+4. `@defer`.
+5. Entornos.
+6. Routing, guards y reutilización de rutas.
+7. Zone.js y cambio de detección.
+8. Web Workers.
+9. Web Vitals.
+
