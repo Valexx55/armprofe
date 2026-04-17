@@ -1,1 +1,54 @@
-<p>imc-historial works!</p>
+<div class="card shadow-sm mt-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h5 class="card-title mb-0">Historial de IMCs</h5>
+        <small class="text-muted">
+          Componente hijo con estrategia OnPush
+        </small>
+      </div>
+
+      <div class="text-end">
+        <div><strong>Total:</strong> {{ historial().length }}</div>
+        <div><strong>Media peso:</strong> {{ mediaPeso() | number:'1.2-2' }}</div>
+        <div><strong>Media altura:</strong> {{ mediaAltura() | number:'1.2-2' }}</div>
+      </div>
+    </div>
+
+    @if (historial().length > 0) {
+      <div class="table-responsive">
+        <table class="table table-sm table-striped align-middle">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Peso</th>
+              <th>Altura</th>
+              <th>IMC</th>
+              <th>Categoría</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of historial(); track $index) {
+              <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ item.peso }}</td>
+                <td>{{ item.altura }}</td>
+                <td>{{ item.numerico }}</td>
+                <td>
+                  <span [class]="getColorCategoria(item.categoria)">
+                    {{ item.categoria }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="text-muted">
+        Todavía no hay cálculos guardados.
+      </div>
+    }
+  </div>
+  
+</div>

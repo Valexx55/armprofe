@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -37,15 +37,10 @@ export class ImcSignalComponent {
 
   
   lista_imcs = signal<ImcResultado[]>([]);
-  mediaPeso = signal<number>(0);
-  mediaAltura = signal<number>(0);
-
-
   imcNumericoActual = signal<number | null>(null);
 
 
   private fb = inject(NonNullableFormBuilder);
-
   imcForm: FormGroup<ImcFormControls> = this.fb.group({
     peso: this.fb.control(0, {
       validators: [Validators.required, Validators.min(1), Validators.max(300)],
@@ -58,16 +53,51 @@ export class ImcSignalComponent {
     }),
   });
 
-  calcularImc() {
+  //CICLO REACTIVO FORMULARIO + SIGNALS
+
+//CLICK CALCULAR 
+//    --> FORMULARIO VÁLIDO 
+//          --> NUEVO VALOR IMC(SIGNAL) 
+//             -->  resutaldoImc (COMPUTED) nuevo IMCResultado 
+//                --> add a la lista (EFFECT) modficamos signal lista_imcs
+//                   --> actualizamos Peso y Altura medias (COMPUTED) 
+
+   constructor()
+  {
+   effect(() => {
+    //al calcular un nuevo registro de IMCs
+    const nuevoResultado = this.resutaldoImc();
+    //añadimos a la lista
+    if (nuevoResultado !== null) {
+      //si paso una nueva referncia (nuevo array, sí se actuzlia, si no, no)
+      this.lista_imcs.update(listaActual => [nuevoResultado, ...listaActual]);
+      //en este caso, modifico el array, pero no creo una nueva referencia, por lo que
+      //el componente hijo no se actuliza porque está con OnPush y pasando la misma referencia
+      //this.lista_imcs().push(nuevoResultado);// (listaActual => [nuevoResultado, ...listaActual]);
+    }
+    //al modificar la lista, vamos a recalcular la mediaPeso y la mediaAltura
+  });
+
+  
+  }
+
+
+   calcularImc() {
     if (this.imcForm.valid) {
       console.log('Formulario válido');
       let imc =
         this.imcForm.controls.peso.value /
         (this.imcForm.controls.altura.value * this.imcForm.controls.altura.value);
       console.log('Imc calculado = ' + imc);
-      this.imcNumericoActual.set(imc);
+      this.imcNumericoActual.set(imc); //si es el mismo valor no cambia el estado, no hay reacción
     }
   }
+
+  
+
+ 
+ 
+
 
   resutaldoImc = computed<ImcResultado | null>(() => {
     let categoriaResultado: string = '';
@@ -110,4 +140,53 @@ export class ImcSignalComponent {
 
     return imcResultado;
   });
+
+
+   mediaPeso = computed(() => {
+  const listaActual = this.lista_imcs();
+
+  if (listaActual.length === 0) {
+    return 0;
+  } else {
+    return this.obtenerMediaPeso(listaActual);
+  }
+});
+
+mediaAltura = computed(() => {
+  const listaActual = this.lista_imcs();
+
+  if (listaActual.length === 0) {
+    return 0;
+  } else {
+    return this.obtenerMediaAltura(listaActual);
+  }
+});
+
+
+ 
+  
+  obtenerMediaAltura(array_imcs: Array<ImcResultado>): number {
+
+    let total = 0;
+
+    array_imcs.forEach((item_imc) => {
+      total += item_imc.altura;
+    });
+
+    return total / array_imcs.length;
+  }
+
+  obtenerMediaPeso(array_imcs: Array<ImcResultado>): number {
+
+    let total = 0;
+
+    array_imcs.forEach((item_imc) => {
+      total += item_imc.peso;
+    });
+
+    return total / array_imcs.length;
+  }
+
+  
+
 }

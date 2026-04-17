@@ -123,11 +123,38 @@
 <!-- HISTORIAL -->
  <div class="row" mt-4>
     <div class="col-12">
+     
         <app-imc-historial
         [historial]="lista_imcs()"
         [mediaPeso]="mediaPeso()"
         [mediaAltura]="mediaAltura()"
         />
+      
     </div>
  </div>
 
+
+
+
+
+
+
+
+
+
+
+ 
+<!-- 
+ @defer (on interaction; prefetch on idle) {
+        <app-imc-historial
+        [historial]="lista_imcs()"
+        [mediaPeso]="mediaPeso()"
+        [mediaAltura]="mediaAltura()"
+        />
+      } @placeholder {
+        <div class="card shadow-sm mt-4">
+    <div class="card-body">
+      Pulsa para cargar el historial
+    </div>
+  </div>
+      } -->

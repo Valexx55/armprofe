@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ImcResultado } from '../../models/imc-resultado';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-imc-historial',
-  imports: [],
+  imports: [DecimalPipe],//PARA mostrar decimales formateados
   templateUrl: './imc-historial.html',
   styleUrl: './imc-historial.css',
   changeDetection: ChangeDetectionStrategy.OnPush
+  //con este valor, si no le paso un array nuevo (nueva dirección de memoria
+  //el componente no se repinta)
   //le digo a ANgular que revise el estado de este componente sólo cuando cambie una referencia del input
 })
 export class ImcHistorial {
