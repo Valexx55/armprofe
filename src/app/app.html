@@ -22,27 +22,24 @@
           <a class="nav-link" routerLink="/alumno/listado" routerLinkActive="active">Listado Alumnos</a>
         </li>
 
-         <li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" routerLink="/imc" routerLinkActive="active">Imc Signal</a>
         </li>
 
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/csv" routerLinkActive="active">WebWorker</a>
+        </li>
 
       </ul>
 
       <div class="ms-auto d-flex align-items-center gap-3">
-        <span 
-          class="badge" 
-          [class.text-bg-success]="authServ.autenticado()"
+        <span class="badge" [class.text-bg-success]="authServ.autenticado()"
           [class.text-bg-secondary]="!authServ.autenticado()">
           {{ authServ.autenticado() ? 'Autenticado' : 'No autenticado' }}
         </span>
 
-        <button
-          class="btn btn-sm"
-          [class.btn-success]="!authServ.autenticado()"
-          [class.btn-outline-light]="authServ.autenticado()"
-          (click)="cambioAuth()"
-          >
+        <button class="btn btn-sm" [class.btn-success]="!authServ.autenticado()"
+          [class.btn-outline-light]="authServ.autenticado()" (click)="cambioAuth()">
           {{authServ.autenticado() ? 'Logout' : 'Login'}}
         </button>
       </div>

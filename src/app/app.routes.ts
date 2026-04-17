@@ -15,6 +15,7 @@ import { inject } from '@angular/core';
 import { AuthenticationService } from './services/authentication-service';
 import { controlDetalleAlumnoGuard } from './guards/control-detalle-alumno-guard';
 import { alumnoDetalleResolverResolver } from './resolvers/alumno-detalle-resolver-resolver';
+import { CsvWorkerimplements } from './components/csv-worker/csv-worker';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,7 @@ export const routes: Routes = [
       { path: 'fortaleza', component: Fortaleza },
       { path: 'login', component: Login },
       { path: 'imc', component: ImcSignalComponent },
+      { path: 'csv', component:  CsvWorkerimplements },
     ],
   },
   {

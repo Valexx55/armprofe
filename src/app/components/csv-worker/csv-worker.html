@@ -1,0 +1,93 @@
+<div class="container py-4">
+  <h2 class="mb-3">Importar CSV y analizar con Web Worker</h2>
+
+  <p class="text-muted">
+    Carga un CSV real de alumnos y analiza duplicados y estadísticas en segundo plano.
+  </p>
+
+  <div class="d-flex gap-2 flex-wrap mb-3">
+    <input
+      type="file"
+      class="form-control"
+      accept=".csv"
+      style="max-width: 320px;"
+      (change)="onFileSelected($event)"
+    />
+
+    <button class="btn btn-primary" (click)="analizar()" [disabled]="!alumnos().length">
+      Analizar
+    </button>
+
+    <button class="btn btn-outline-secondary" (click)="limpiar()">
+      Limpiar
+    </button>
+  </div>
+
+  <p>
+    <strong>Estado:</strong> {{ mensaje() }}
+    @if (cargando()) {
+      <span class="badge text-bg-warning ms-2">Procesando...</span>
+    }
+  </p>
+
+  <p>
+    <strong>Filas cargadas:</strong> {{ alumnos().length }}
+  </p>
+
+  @if (resultado()) {
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Resumen</h5>
+            <p>Total: {{ resultado()!.total }}</p>
+            <p>Media edad: {{ resultado()!.mediaEdad }}</p>
+            <p>Duplicados email: {{ resultado()!.duplicadosPorEmail.length }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Top dominios</h5>
+            <ul class="mb-0">
+              @for (item of resultado()!.porDominio.slice(0, 5); track item.dominio) {
+                <li>{{ item.dominio }} - {{ item.total }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Altas por año</h5>
+            <ul class="mb-0">
+              @for (item of resultado()!.porAnioAlta; track item.anio) {
+                <li>{{ item.anio }} - {{ item.total }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-3">
+      <div class="card-body">
+        <h5 class="card-title">Emails duplicados</h5>
+
+        @if (resultado()!.duplicadosPorEmail.length === 0) {
+          <p class="mb-0">No se han encontrado duplicados.</p>
+        } @else {
+          <ul class="mb-0">
+            @for (dup of resultado()!.duplicadosPorEmail.slice(0, 10); track dup.email) {
+              <li>{{ dup.email }} - {{ dup.repeticiones }} repeticiones</li>
+            }
+          </ul>
+        }
+      </div>
+    </div>
+  }
+</div>
