@@ -6,22 +6,24 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ImcHistorial } from '../imc-historial/imc-historial';
+import { ImcResultado } from '../../models/imc-resultado';
 
 type ImcFormControls = {
   peso: FormControl<number>;
   altura: FormControl<number>;
 };
 
-type ImcResultado = {
+/*type ImcResultado = {
   peso: number;
   altura: number;
   numerico: number;
   categoria: string;
   foto: string;
-};
+};*/
 @Component({
   selector: 'app-imc-signal-component',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ImcHistorial],
   templateUrl: './imc-signal-component.html',
   styleUrl: './imc-signal-component.css',
   standalone: true,
@@ -32,6 +34,12 @@ export class ImcSignalComponent {
   static readonly FOTO_IDEAL: string = '/ideal.jpg';
   static readonly FOTO_SOBREPESO: string = '/sobrepeso.jpg';
   static readonly FOTO_OBESO: string = '/obeso.jpg';
+
+  
+  lista_imcs = signal<ImcResultado[]>([]);
+  mediaPeso = signal<number>(0);
+  mediaAltura = signal<number>(0);
+
 
   imcNumericoActual = signal<number | null>(null);
 
@@ -87,7 +95,7 @@ export class ImcSignalComponent {
         fotoResultado = ImcSignalComponent.FOTO_SOBREPESO;
       } else if (this.imcNumericoActual()! >= 31) {
         //obeso
-        categoriaResultado = 'OBESADO';
+        categoriaResultado = 'OBESO';
         fotoResultado = ImcSignalComponent.FOTO_OBESO;
       }
 
