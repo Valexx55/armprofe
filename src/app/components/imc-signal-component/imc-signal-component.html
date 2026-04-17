@@ -6,87 +6,73 @@
 </div>
 
 <div class="row g-3">
-    <div class="col-12 col-lg-6">
+  <div class="col-12 col-lg-6">
     <div class="card shadow-sm">
       <div class="card-body">
         <h5 class="card-title mb-3">Datos</h5>
 
         <!-- evitamos con novalidate que se produzca la validación en html automática -->
         <form [formGroup]="imcForm" (ngSubmit)="calcularImc()" novalidate>
-            <div class="row g-4">
-              
-              <!-- peso -->
-              <div class="col-12 col-md-3">
-                <label for="peso" class="form-label fw-semibold">Peso</label>
-                <input
-                  id="peso"
-                  type="number"
-                  class="form-control form-control-lg"
-                  formControlName="peso"
-                  [class.is-invalid]="imcForm.controls.peso.touched && imcForm.controls.peso.invalid"
-                />
+          <div class="row g-4">
 
-                @if (imcForm.controls.peso.touched && imcForm.controls.peso.invalid) {
-                  <div class="invalid-feedback d-block">
-                    @if (imcForm.controls.peso.errors?.['required']) {
-                      <div>El peso es obligatorio.</div>
-                    }
-                    @if (imcForm.controls.peso.errors?.['min']) {
-                      <div>El peso no puede ser menor que 1.</div>
-                    }
-                    @if (imcForm.controls.peso.errors?.['max']) {
-                      <div>El peso no puede ser mayor que 300.</div>
-                    }
-                  </div>
+            <!-- peso -->
+            <div class="col-12 col-md-3">
+              <label for="peso" class="form-label fw-semibold">Peso</label>
+              <input id="peso" type="number" class="form-control form-control-lg" formControlName="peso"
+                [class.is-invalid]="imcForm.controls.peso.touched && imcForm.controls.peso.invalid" />
+
+              @if (imcForm.controls.peso.touched && imcForm.controls.peso.invalid) {
+              <div class="invalid-feedback d-block">
+                @if (imcForm.controls.peso.errors?.['required']) {
+                <div>El peso es obligatorio.</div>
+                }
+                @if (imcForm.controls.peso.errors?.['min']) {
+                <div>El peso no puede ser menor que 1.</div>
+                }
+                @if (imcForm.controls.peso.errors?.['max']) {
+                <div>El peso no puede ser mayor que 300.</div>
                 }
               </div>
+              }
+            </div>
 
-              <div class="col-12 col-md-3">
-                <label for="altura" class="form-label fw-semibold">Altura</label>
-                <input
-                  id="altura"
-                  type="number"
-                  class="form-control form-control-lg"
-                  formControlName="altura"
-                  [class.is-invalid]="imcForm.controls.altura.touched && imcForm.controls.altura.invalid"
-                />
+            <div class="col-12 col-md-3">
+              <label for="altura" class="form-label fw-semibold">Altura</label>
+              <input id="altura" type="number" class="form-control form-control-lg" formControlName="altura"
+                [class.is-invalid]="imcForm.controls.altura.touched && imcForm.controls.altura.invalid" />
 
-                @if (imcForm.controls.altura.touched && imcForm.controls.altura.invalid) {
-                  <div class="invalid-feedback d-block">
-                    @if (imcForm.controls.altura.errors?.['required']) {
-                      <div>La altura es obligatoria.</div>
-                    }
-                    @if (imcForm.controls.altura.errors?.['min']) {
-                      <div>La altura no puede ser menor que 0.5.</div>
-                    }
-                    @if (imcForm.controls.altura.errors?.['max']) {
-                      <div>La altura no puede ser mayor que 2.50.</div>
-                    }
-                  </div>
+              @if (imcForm.controls.altura.touched && imcForm.controls.altura.invalid) {
+              <div class="invalid-feedback d-block">
+                @if (imcForm.controls.altura.errors?.['required']) {
+                <div>La altura es obligatoria.</div>
+                }
+                @if (imcForm.controls.altura.errors?.['min']) {
+                <div>La altura no puede ser menor que 0.5.</div>
+                }
+                @if (imcForm.controls.altura.errors?.['max']) {
+                <div>La altura no puede ser mayor que 2.50.</div>
                 }
               </div>
-
-              
+              }
             </div>
 
-           
-          
 
-            <!-- BOTONES -->
-            <div class="d-flex flex-wrap gap-2 mt-4">
-              
-              <button
-                type="submit"
-                class="btn btn-primary btn-lg"
-            
-              >
-                Enviar
-              </button>
-            </div>
-          </form>
+          </div>
 
 
-       
+
+
+          <!-- BOTONES -->
+          <div class="d-flex flex-wrap gap-2 mt-4">
+
+            <button type="submit" class="btn btn-primary btn-lg">
+              Enviar
+            </button>
+          </div>
+        </form>
+
+
+
       </div>
     </div>
   </div>
@@ -95,25 +81,25 @@
     <div class="card shadow-sm h-100">
       <div class="card-body">
         <h5 class="card-title mb-3">Resultado</h5>
-                    @if (resutaldoImc(); as valorimc) {
-                    <div class="d-flex align-items-center gap-3">
-                        <img [src]="valorimc.foto" alt="estado imc" class="img-thumbnail"
-                            style="width: 120px; height: 120px; object-fit: cover;" />
+        @if (resutaldoImc(); as valorimc) {
+        <div class="d-flex align-items-center gap-3">
+          <img [src]="valorimc.foto" alt="estado imc" class="img-thumbnail"
+            style="width: 120px; height: 120px; object-fit: cover;" />
 
-                        <div>
-                            <div class="fs-5">
-                                Tu IMC: <strong>{{ valorimc.numerico }}</strong>
-                            </div>
-                            <div class="text-muted">
-                                {{ valorimc.categoria }}
-                            </div>
-                        </div>
-                    </div>
-                    } @else {
-                    <div class="text-muted">
-                        Introduce peso y altura válidos y pulsa <strong>Calcular IMC</strong>.
-                    </div>
-                    }
+          <div>
+            <div class="fs-5">
+              Tu IMC: <strong>{{ valorimc.numerico }}</strong>
+            </div>
+            <div class="text-muted">
+              {{ valorimc.categoria }}
+            </div>
+          </div>
+        </div>
+        } @else {
+        <div class="text-muted">
+          Introduce peso y altura válidos y pulsa <strong>Calcular IMC</strong>.
+        </div>
+        }
       </div>
     </div>
   </div>
@@ -121,17 +107,53 @@
 </div>
 
 <!-- HISTORIAL -->
- <div class="row" mt-4>
-    <div class="col-12">
-     
-        <app-imc-historial
+<div class="row" mt-4>
+  <div class="col-12">
+
+    <!-- <app-imc-historial
         [historial]="lista_imcs()"
         [mediaPeso]="mediaPeso()"
         [mediaAltura]="mediaAltura()"
-        />
-      
+        /> -->
+
+    <!-- 
+        bloque defer_ carga diferida (para bloques pesados)
+
+        on -- cuando se muestra (2)
+        prefetch -- cuando se carga (1)
+
+        precarega , cuando tenga un hueco libre el navegador (ocioso)
+        muestra, cuando clique en la sección 
+         -->
+
+    @defer (on interaction; prefetch on idle) {
+    <!-- @defer (on timer(2000ms)) { -->
+    <app-imc-historial [historial]="lista_imcs()" [mediaPeso]="mediaPeso()" [mediaAltura]="mediaAltura()" />
+    } @placeholder {
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Historial diferido</h5>
+        <p class="text-muted mb-3">
+          Esta sección no se renderiza al inicio. Su carga puede adelantarse
+          cuando el navegador esté ocioso, pero solo se mostrará al interactuar.
+        </p>
+
+        <button class="btn btn-outline-primary">
+          Mostrar historial diferido
+        </button>
+      </div>
     </div>
- </div>
+    }@loading (after 3000ms; minimum 3s) {
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <p class="mb-0 text-muted">
+          Cargando historial diferido...
+        </p>
+      </div>
+    </div>
+    }
+  </div>
+</div>
 
 
 
@@ -142,8 +164,6 @@
 
 
 
-
- 
 <!-- 
  @defer (on interaction; prefetch on idle) {
         <app-imc-historial

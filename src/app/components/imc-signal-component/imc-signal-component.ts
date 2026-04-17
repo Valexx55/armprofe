@@ -69,7 +69,7 @@ export class ImcSignalComponent {
     const nuevoResultado = this.resutaldoImc();
     //añadimos a la lista
     if (nuevoResultado !== null) {
-      //si paso una nueva referncia (nuevo array, sí se actuzlia, si no, no)
+      //si paso una nueva referencia (nuevo array, sí se actuzlia, si no, no)
       this.lista_imcs.update(listaActual => [nuevoResultado, ...listaActual]);
       //en este caso, modifico el array, pero no creo una nueva referencia, por lo que
       //el componente hijo no se actuliza porque está con OnPush y pasando la misma referencia
