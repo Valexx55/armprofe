@@ -11,6 +11,7 @@
       <div class="card-body">
         <h5 class="card-title mb-3">Datos</h5>
 
+        <!-- evitamos con novalidate que se produzca la validación en html automática -->
         <form [formGroup]="imcForm" (ngSubmit)="calcularImc()" novalidate>
             <div class="row g-4">
               
@@ -94,56 +95,25 @@
     <div class="card shadow-sm h-100">
       <div class="card-body">
         <h5 class="card-title mb-3">Resultado</h5>
-<!-- 
-        @if (password().trim()) {
-          <p>
-            Fortaleza:
-            <span [class]="fortalezaClase()">
-              {{ fortalezaTexto() }}
-            </span>
-            
-          </p>
+                    @if (resutaldoImc(); as valorimc) {
+                    <div class="d-flex align-items-center gap-3">
+                        <img [src]="valorimc.foto" alt="estado imc" class="img-thumbnail"
+                            style="width: 120px; height: 120px; object-fit: cover;" />
 
-          <div class="progress mb-3" style="height: 20px;">
-            <div
-              [class]="barraFortalezaClase()"
-              role="progressbar"
-              [style.width.%]="barraFortalezaValor()"
-              [attr.aria-valuenow]="barraFortalezaValor()"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              {{ barraFortalezaValor() }}%
-            </div>
-          </div>
-
-          <ul class="mb-3">
-            <li [class.text-success]="tieneMinimoCaracteres()" [class.text-danger]="!tieneMinimoCaracteres()">
-              Mínimo 8 caracteres
-            </li>
-            <li [class.text-success]="tieneMayuscula()" [class.text-danger]="!tieneMayuscula()">
-              Contiene mayúscula
-            </li>
-            <li [class.text-success]="tieneNumero()" [class.text-danger]="!tieneNumero()">
-              Contiene número
-            </li>
-            <li [class.text-success]="tieneSimbolo()" [class.text-danger]="!tieneSimbolo()">
-              Contiene símbolo
-            </li>
-
-           
-          </ul>
-        } @else {
-          <div class="text-muted">
-            Introduce una contraseña para evaluar su fortaleza.
-          </div>
-        } -->
-
-        <!-- @if (nombre().trim()) {
-          <p class="mb-0">
-            Usuario actual: <strong>{{ nombre() }}</strong>
-          </p>
-        } -->
+                        <div>
+                            <div class="fs-5">
+                                Tu IMC: <strong>{{ valorimc.numerico }}</strong>
+                            </div>
+                            <div class="text-muted">
+                                {{ valorimc.categoria }}
+                            </div>
+                        </div>
+                    </div>
+                    } @else {
+                    <div class="text-muted">
+                        Introduce peso y altura válidos y pulsa <strong>Calcular IMC</strong>.
+                    </div>
+                    }
       </div>
     </div>
   </div>
